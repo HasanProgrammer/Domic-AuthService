@@ -35,7 +35,7 @@ public class CreateUserConsumerEventBusHandler : IConsumerEventBusHandler<UserCr
     [TransactionConfig(Type = TransactionType.Query)]
     public void Handle(UserCreated @event)
     {
-        var targetUser = _userQueryRepository.FindByIdAsync(@event.Id, default).Result;
+        var targetUser = _userQueryRepository.FindByUsernameEagerLoadingAsync(@event.Username, default).Result;
 
         if (targetUser is null) //Replication management
         {
